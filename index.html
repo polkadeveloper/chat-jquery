@@ -44,6 +44,17 @@
         list-style: none;
         word-wrap: break-word;
         padding-inline: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      #messages img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+      #messages span {
+        flex-grow: 1;
       }
       button {
         border-radius: 5px;
@@ -59,13 +70,23 @@
         border-radius: 15px;
         padding: 5px;
       }
+
+
     </style>
   </head>
   <body>
-    <div id="chat-box">
+    <div id="username-input">
+      <input
+        type="text"
+        id="username"
+        placeholder="Nombre de usuario de GitHub"
+      />
+      <button id="submit-username">Ingresar</button>
+    </div>
+    <div id="chat-box" style="display: none">
       <ul id="messages"></ul>
     </div>
-    <form id="form">
+    <form id="form" style="display: none">
       <textarea id="input" autocomplete="off"></textarea>
       <button>ENVIAR</button>
     </form>
@@ -73,14 +94,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(function () {
+        let username = "";
+        $("#submit-username").click(function () {
+          username = $("#username").val();
+          $("#username-input").hide();
+          $("#chat-box").show();
+          $("#form").show();
+        });
         const socket = io("https://jquery-chat.zeabur.app/");
         $("#form").submit(function (event) {
           event.preventDefault();
-          socket.emit("Mensaje de chat", $("#input").val());
+          socket.emit("Mensaje de chat", { text: $("#input").val(), username });
           $("#input").val("");
         });
         socket.on("Mensaje de chat", function (msg) {
-          $("#messages").append($("<li>").text(msg));
+          const messageElement = $("<li>");
+          const avatar = $("<img>").attr(
+            "src",
+            `https://avatars.githubusercontent.com/${msg.username}`
+          );
+          const text = $("<span>").text(msg.text);
+          messageElement.append(avatar, text);
+          $("#messages").append(messageElement);
           $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
         });
       });
