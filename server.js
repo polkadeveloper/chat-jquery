@@ -12,7 +12,7 @@ const server = createServer((req, res) => {
 // Inicializamos una nueva instancia de socket.io utilizando el servidor HTTP
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5500",
+    origin: "*", // Permitir todas las origenes o cambiarlo a la URL de tu servidor en producción
     methods: ["GET", "POST"]
   }
 });
@@ -34,9 +34,10 @@ io.on("connection", (socket) => {
   });
 });
 
-// El servidor comienza a escuchar en el puerto 3000
-server.listen(3000, () => {
-  console.log("Servidor corriendo en http://localhost:3000");
+// El servidor comienza a escuchar en el puerto proporcionado por el entorno o 3000 si no se proporciona ninguno
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 export default { server, io };
