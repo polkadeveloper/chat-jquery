@@ -12,7 +12,7 @@ const server = createServer((req, res) => {
 // Inicializamos una nueva instancia de socket.io utilizando el servidor HTTP
 const io = new Server(server, {
   cors: {
-    origin: "*", // Permitir todas las origenes o cambiarlo a la URL de tu servidor en producción
+    origin: "https://chat-jquery.vercel.app/", // Permitir todas las origenes o cambiarlo a la URL de tu servidor en producción
     methods: ["GET", "POST"]
   }
 });
