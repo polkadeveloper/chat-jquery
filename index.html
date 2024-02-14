@@ -101,7 +101,7 @@
           $("#chat-box").show();
           $("#form").show();
         });
-        const socket = io("https://jquery-chat.zeabur.app/");
+        const socket = io("https://chat-jquery.onrender.com/");
         $("#form").submit(function (event) {
           event.preventDefault();
           socket.emit("Mensaje de chat", { text: $("#input").val(), username });
