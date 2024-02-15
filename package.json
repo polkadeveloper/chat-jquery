@@ -12,7 +12,7 @@
   "author": "polkadeveloper",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "4.7.4",
-    "tailwindcss": "3.4.1"
+    "socket.io": "^4.7.4",
+    "tailwindcss": "^3.4.1"
   }
 }
